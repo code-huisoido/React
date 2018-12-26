@@ -1,63 +1,62 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 
-class Title extends Component {
-    handleClickOnTitle (word, e) {
-        console.log(this, word)
+class LikeButton extends Component {
+    static defaultProps = {
+        likedText: '取消',
+        unlikedText: '点赞'
     }
 
-    render () {
-        return (
-            <h1 onClick={this.handleClickOnTitle.bind(this, 'Hello')}>Hello</h1>
-        )
+    constructor() {
+        super()
+        this.state = {isLiked: false}
     }
-}
 
-class Header extends Component {
-    render () {
-        return (
-            <div>
-                <Title />
-                <h2>This is Header</h2>
-            </div>
-        )
+    handleClickOnLikeButton() {
+        this.setState({
+            isLiked: !this.state.isLiked
+        })
+        if (this.props.onClick) {
+            this.props.onClick()
+        }
+        /*this.setState((prevState) => {
+            return {count: 0}
+        })
+        this.setState((prevState) => {
+            return {count: prevState.count + 1}
+        })
+        this.setState((prevState) => {
+            console.log(prevState.count)
+            return {count: prevState.count + 2}
+        })*/
+
     }
-}
 
-class Main extends Component {
-    render () {
+    render() {
         return (
-            <div>
-                <h2>This is main content</h2>
-            </div>
-        )
-    }
-}
-
-class Footer extends Component {
-    render () {
-        return (
-            <div>
-                <h2>This is footer</h2>
-            </div>
+            <button onClick={this.handleClickOnLikeButton.bind(this)}>
+                {this.state.isLiked ? this.props.likedText : this.props.unlikedText}👍
+            </button>
         )
     }
 }
 
 class Index extends Component {
-    render () {
+    render() {
         return (
             <div>
-                <Header/>
-                <Main/>
-                <Footer/>
+                <LikeButton
+                    likedText='已赞'
+                    unlikedText='赞'
+                    onClick={() => console.log('Click on like button!')}
+                />
             </div>
         )
     }
 }
 
 ReactDOM.render(
-    <Index />,
+    <Index/>,
     document.getElementById('root')
 )
